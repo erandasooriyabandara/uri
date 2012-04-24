@@ -1,0 +1,68 @@
+<project name="org.wso2.carbon.registry.samples.populator" default="help" basedir=".">
+    <property name="registry.home" value="/home/eranda/Desktop/wso2greg-4.0.0-SNAPSHOT"/>
+    <property name="class.dir" value="target/classes"/>
+    <property name="uri.dir" value="../../uri"/>
+    <target name="help">
+        <echo/>
+    </target>
+    <property name="version" value="4.0.0-SNAPSHOT"/>
+
+    <target name="init">
+        <path id="javac.classpath">
+	    <fileset dir="./">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${registry.home}/repository/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${registry.home}/bin">
+                <include name="*.jar"/>
+            </fileset>
+             <fileset dir="${registry.home}/repository/components/plugins">
+                <include name="*.jar" />
+            </fileset>
+        </path>
+    </target>
+
+    <target name="run" depends="jar-uri">
+        <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="localhost"/>
+            <arg value="-p" />
+            <arg value="9443"/>
+            <arg value="-u" />
+            <arg value="admin"/>
+            <arg value="-pw" />
+            <arg value="admin"/>
+            <arg value="-l" />
+            <arg value="${uri.dir}"/>
+        </java>
+    </target>
+
+    <target name="jar-uri" depends="clean-uri, compile-uri">
+        <jar jarfile="${uri.dir}/target/org.wso2.carbon.registry.handlers.uri-${version}.jar">
+            <fileset dir="${uri.dir}/${class.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="clean-uri">
+        <delete dir="${uri.dir}/target" quiet="true"/>
+    </target>
+
+     <target name="compile-uri" depends="init-uri" description="Compile all Java">
+        <javac srcdir="${uri.dir}/src" destdir="${uri.dir}/${class.dir}">
+            <classpath refid="javac.classpath"/>
+        </javac>
+    </target>
+
+    <target name="init-uri" depends="init">
+        <mkdir dir="${uri.dir}/${class.dir}"/>
+    </target>
+
+</project>

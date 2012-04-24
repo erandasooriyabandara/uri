@@ -1,0 +1,21 @@
+URI Populator
+============================
+
+This populator can be use to populate Registry Extension Models. This will automatically 
+
+  1. Add Registry Extension files to the WSO2 Governance Registry.
+  2. Add Extension jar files needed.
+  3. Add Handlers.
+
+Configure the Populator
+-----------------------
+
+Open build.xml using a document editor and set the "registry.home" property value to a WSO2 Governance Registry home directory.
+
+
+Command to Populate URI Model - 'ant run'
+
+
+
+
+
